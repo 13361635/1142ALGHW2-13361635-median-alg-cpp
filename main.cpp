@@ -29,7 +29,14 @@ double findMedian(vector<int> values) {
     // 3. 若 n 為奇數，回傳中間值
     // 4. 若 n 為偶數，回傳中間兩個值的平均
 
-    return 0.0; // 請修改
+    sort(values.begin(), values.end());
+    int n = values.size();
+
+    if (n % 2 == 1) {
+        return values[n / 2];
+    } else {
+        return (values[n / 2 - 1] + values[n / 2]) / 2.0;
+    }
 }
 
 // ------------------------------
@@ -54,7 +61,27 @@ int findWeightedMedian(vector<Item> items) {
     //
     // 5. 若最後仍未找到，回傳 -1
 
-    return -1; // 請修改
+    sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+        return a.x < b.x;
+    });
+
+    printSortedValues(items);
+
+    double cumulativeWeight = 0.0;
+
+    for (const auto& item : items) {
+        cumulativeWeight += item.w;
+
+        cout << "x = " << item.x
+             << ", w = " << fixed << setprecision(2) << item.w
+             << ", cumulative = " << cumulativeWeight << "\n";
+
+        if (cumulativeWeight >= 0.5) {
+            return item.x;
+        }
+    }
+
+    return -1;
 }
 
 int main() {
